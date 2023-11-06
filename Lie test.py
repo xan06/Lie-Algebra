@@ -1,4 +1,4 @@
-from sympy import symbols, Matrix, solve, Poly
+from sympy import symbols, Matrix, solve, Poly, Sum 
 
 
 # Define structure constant function
@@ -37,8 +37,15 @@ def Ad(basis, bracket_dict):
     # Solve for T_{e_i}
     # Define the matrix T_{e1} symbolically
     A = Matrix(n, n, symbols('a:{}'.format(n * n)))
+    C = SC(basis, bracket_dict)
+    # express [e_i,e_j] as a sum
+    summation = [[Matrix.zeros(n,1) for i in range(n)] for j in range(n)]
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                summation[i][j] +=C[i][j][k]*e[k]
     # Define the equations A * e_i = [e1, ei] for each i
-    equations = [A * e[i] - translate(e, basis, bracket_dict, 0, i) for i in range(n)]
+    equations = [A * e[i] -  summation[0][i] for i in range(n)]
     return solve(equations, A)
 
 
@@ -55,5 +62,6 @@ dictionary = {
     (e2,e2): zero,
    
 }
-a=translate(e,basis,dictionary,1,0)
-print(a)
+C = SC(basis, dictionary)
+result = Ad(basis, dictionary)
+print(result)
