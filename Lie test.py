@@ -52,8 +52,8 @@ def Ad(basis, bracket_dict):
     C = permutedims(SC(basis, bracket_dict), (2,0,1))
     matrices = [Matrix.zero(n,n) for k in range(n)]
     for i in range(n):
-        matrices[i]= Matrix(C1[i])
-    return BlockMatrix(matrices)
+        matrices[i]= Matrix(C[i])
+    return Matrix(BlockMatrix(matrices)).nullspace()
 
 # test case
 e1,e2 = symbols('e1 e2')
@@ -73,5 +73,5 @@ C1=permutedims(C, (2,0,1))
 matrices = [Matrix.zeros(n,n) for k in range(n)]
 for i in range(n):
     matrices[i]= Matrix(C1[i])
-BlockMatrix(matrices)
-print(BlockMatrix(matrices))
+M = Matrix(BlockMatrix(matrices))
+print(M.nullspace())
