@@ -1,4 +1,4 @@
-from sympy import symbols, Matrix, solve, Poly, Sum 
+from sympy import symbols, Matrix, solve, Poly, Sum , Array, permutedims, BlockMatrix
 
 
 # Define structure constant function
@@ -32,22 +32,28 @@ def translate(e, basis, bracket_dict, a, b):
 def Ad(basis, bracket_dict):
     n= len(basis)
     # define standard basis vector
-    e = [Matrix([int(i == j) for j in range(n)]) for i in range(n)]
+    # e = [Matrix([int(i == j) for j in range(n)]) for i in range(n)]
     
-    # Solve for T_{e_i}
-    # Define the matrix T_{e1} symbolically
-    A = Matrix(n, n, symbols('a:{}'.format(n * n)))
-    C = SC(basis, bracket_dict)
-    # express [e_i,e_j] as a sum
-    summation = [[Matrix.zeros(n,1) for i in range(n)] for j in range(n)]
-    for i in range(n):
-        for j in range(n):
-            for k in range(n):
-                summation[i][j] +=C[i][j][k]*e[k]
-    # Define the equations A * e_i = [e1, ei] for each i
-    equations = [A * e[i] -  summation[0][i] for i in range(n)]
-    return solve(equations, A)
+    # # Solve for T_{e_i}
+    # # Define the matrix T_{e1} symbolically
+    # A = Matrix(n, n, symbols('a:{}'.format(n * n)))
+    # C = SC(basis, bracket_dict)
+    # # express [e_i,e_j] as a sum
+    # summation = [[Matrix.zeros(n,1) for i in range(n)] for j in range(n)]
+    # for i in range(n):
+    #     for j in range(n):
+    #         for k in range(n):
+    #             summation[i][j] +=C[i][j][k]*e[k]
+    # # Define the equations A * e_i = [e1, ei] for each i
+    # equations = [A * e[i] -  summation[0][i] for i in range(n)]
+    # return solve(equations, A)
 
+    # Make a list of matrices T_{ek} from SC(basis, bracket_dict)
+    C = permutedims(SC(basis, bracket_dict), (2,0,1))
+    matrices = [Matrix.zero(n,n) for k in range(n)]
+    for i in range(n):
+        matrices[i]= Matrix(C1[i])
+    return BlockMatrix(matrices)
 
 # test case
 e1,e2 = symbols('e1 e2')
@@ -63,5 +69,9 @@ dictionary = {
    
 }
 C = SC(basis, dictionary)
-result = Ad(basis, dictionary)
-print(result)
+C1=permutedims(C, (2,0,1))
+matrices = [Matrix.zeros(n,n) for k in range(n)]
+for i in range(n):
+    matrices[i]= Matrix(C1[i])
+BlockMatrix(matrices)
+print(BlockMatrix(matrices))
