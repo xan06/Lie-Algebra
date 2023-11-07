@@ -50,7 +50,7 @@ def Ad(basis, bracket_dict):
 
     # Make a list of matrices T_{ek} from SC(basis, bracket_dict)
     C = permutedims(SC(basis, bracket_dict), (2,0,1))
-    matrices = [Matrix.zero(n,n) for k in range(n)]
+    matrices = [Matrix.zeros(n,n) for k in range(n)]
     for i in range(n):
         matrices[i]= Matrix(C[i])
     return Matrix(BlockMatrix(matrices)).nullspace()
@@ -69,9 +69,9 @@ dictionary = {
    
 }
 C = SC(basis, dictionary)
-C1=permutedims(C, (2,0,1))
-matrices = [Matrix.zeros(n,n) for k in range(n)]
-for i in range(n):
-    matrices[i]= Matrix(C1[i])
-M = Matrix(BlockMatrix(matrices))
-print(M.nullspace())
+# C1=permutedims(C, (2,0,1))
+# matrices = [Matrix.zeros(n,n) for k in range(n)]
+# for i in range(n):
+#     matrices[i]= Matrix(C1[i])
+# M = Matrix(BlockMatrix(matrices))
+print(Ad(basis, dictionary))
