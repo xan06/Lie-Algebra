@@ -15,6 +15,21 @@ def SC(basis, bracket_dict):
                 C[i][j][k]=expr.coeff(basis[k])
     return C
 
+# Check if structure constants satisfy jacobi identity.
+def Jacobi(basis, bracket_dict):
+    C=SC(basis,bracket_dict)
+    n= len(basis)
+    sum=0
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                if C[i][i][k]==0 & C[i][j][k]+C[j][i][k]==0:
+                    continue
+                else:
+                    return False
+    # need to check for jacobi identity, but needs more loops than expected.
+
+
 # Consider Ad: g \to End(g)
 #         x \mapsto Ad_x:= [x , \cdot ]
 #     We have Ad(e_k)=k-th column of Ad, and note that Ad(x) is a n^2 vector which can be converted to a matrix T_x
@@ -54,6 +69,8 @@ def Ad(basis, bracket_dict):
     for i in range(n):
         matrices[i]= Matrix(C[i])
     return Matrix(BlockMatrix(matrices)).nullspace()
+
+
 
 # test case
 e1,e2 = symbols('e1 e2')
