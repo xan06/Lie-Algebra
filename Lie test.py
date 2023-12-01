@@ -1,5 +1,8 @@
 from sympy import symbols, Matrix, solve, Poly, Sum , Array, permutedims, BlockMatrix
 
+# Creating a class for Lie Algebra
+class LieAlg:
+    x=5
 
 # Define structure constant function
 def SC(basis, bracket_dict):
@@ -15,6 +18,7 @@ def SC(basis, bracket_dict):
                 C[i][j][k]=expr.coeff(basis[k])
     return C
 
+# Check if the input satisfies jacobi
 def check_jacobi_identity(basis, bracket_dict):
     n = len(basis)
     C = SC(basis, bracket_dict)
