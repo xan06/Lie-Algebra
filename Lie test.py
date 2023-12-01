@@ -56,16 +56,21 @@ def Ad(basis, bracket_dict):
     return Matrix(BlockMatrix(matrices)).nullspace()
 
 # test case
-e1,e2 = symbols('e1 e2')
+e1,e2, e3= symbols('e1 e2 e3')
 zero = symbols('0')
-basis = [e1, e2]
+basis = [e1, e2, e3]
 n= len(basis)
 e = [Matrix([int(i == j) for j in range(n)]) for i in range(n)]
 dictionary = {
     (e1,e1): zero,
-    (e1,e2): e2,
+    (e1,e2): zero,
+    (e1,e3): e1,
     (e2,e1): -1*(e2),
     (e2,e2): zero,
+    (e2,e3): e2,
+    (e3,e1):-1*e1,
+    (e3,e2):-1*e2,
+    (e3,e3):zero
    
 }
 C = SC(basis, dictionary)
