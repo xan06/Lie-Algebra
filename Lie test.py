@@ -15,7 +15,6 @@ def SC(basis, bracket_dict):
                 C[i][j][k]=expr.coeff(basis[k])
     return C
 
-# Check if structure constants satisfy jacobi identity.
 def check_jacobi_identity(basis, bracket_dict):
     n = len(basis)
     C = SC(basis, bracket_dict)
