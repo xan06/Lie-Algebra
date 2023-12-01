@@ -2,7 +2,7 @@ from sympy import symbols, Matrix, solve, Poly, Sum , Array, permutedims, BlockM
 
 # Creating a class for Lie Algebra
 class LieAlg:
-    x=5
+    pass
 
 # Define structure constant function
 def SC(basis, bracket_dict):
